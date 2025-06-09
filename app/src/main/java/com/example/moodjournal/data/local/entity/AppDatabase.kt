@@ -20,15 +20,3 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun welcomeDao(): WelcomeDao
 }
 
-@Module
-@InstallIn(SingletonComponent::class)
-object DatabaseModule {
-
-    @Provides
-    @Singleton
-    fun provideDatabase(@ApplicationContext context: Context): AppDatabase =
-        Room.databaseBuilder(context, AppDatabase::class.java, "app_db").build()
-
-    @Provides
-    fun provideWelcomeDao(db: AppDatabase): WelcomeDao = db.welcomeDao()
-}
