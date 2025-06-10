@@ -1,6 +1,4 @@
-package com.example.moodjournal.presentation.welcome
-
-import android.os.Message
+package com.example.moodjournal.presentation.welcome.welcome
 
 
 // то что отображается на экране

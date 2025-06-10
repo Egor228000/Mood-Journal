@@ -1,17 +1,13 @@
-package com.example.moodjournal.presentation.welcome
+package com.example.moodjournal.presentation.welcome.welcome
 
-import android.widget.Toast
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.moodjournal.domain.usecase.repository.welcome.GetWelcomeMessageUseCase
+import com.example.moodjournal.domain.usecase.repository.welcome.GetSaveWelcomeNameUseCase
+
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -19,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class WelcomeViewModel @Inject constructor(
-     private val getWelcomeMessageUseCase: GetWelcomeMessageUseCase
+     private val getSaveWelcomeNameUseCase: GetSaveWelcomeNameUseCase
 ): ViewModel() {
 
      private val _uiState = MutableStateFlow(WelcomeUiState())
@@ -40,6 +36,8 @@ class WelcomeViewModel @Inject constructor(
                               _uiState.update { it.copy(errorMessage = "Имя не может быть пустым") }
                          } else {
                               _uiState.update { it.copy(errorMessage = "") } // сбрасываем ошибку
+                              getSaveWelcomeNameUseCase.invoke(id = 1, name = name)
+                              _effect.send(WelcomeEffect.SaveName)
                               _effect.send(WelcomeEffect.NavigateHomeScreen)
                          }
                     }
