@@ -7,7 +7,7 @@ import com.example.moodjournal.data.local.dao.UserNameDao
 import com.example.moodjournal.data.local.entity.MoodCardEnity
 import com.example.moodjournal.data.local.entity.WelcomeEntity
 
-@Database(entities = [WelcomeEntity::class, MoodCardEnity::class], version = 1, exportSchema = false)
+@Database(entities = [WelcomeEntity::class, MoodCardEnity::class], version = 2, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun MoodCardDao(): MoodCardDao
     abstract fun UserNameDao(): UserNameDao
