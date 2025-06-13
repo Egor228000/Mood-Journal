@@ -28,19 +28,15 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
-        enableEdgeToEdge(
-            statusBarStyle = SystemBarStyle.light(Color.Black.toArgb(), Color.Black.toArgb()),
-            navigationBarStyle = SystemBarStyle.light(Color.Black.toArgb(), Color.Black.toArgb())
-
-        )
         installSplashScreen()
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
+
         setContent {
             val backStack = rememberNavBackStack(WelcomeScreenNavKey)
 
             MoodJournalTheme {
                 Scaffold(
-                    modifier = Modifier,
                     contentWindowInsets = WindowInsets(),
                     topBar = {
                         when(backStack.lastOrNull()) {

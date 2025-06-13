@@ -10,6 +10,7 @@ import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -46,21 +47,12 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.moodjournal.R
 import kotlinx.coroutines.flow.collectLatest
-internal tailrec fun Context.findActivity(): ComponentActivity? =
-    when (this) {
-        is ComponentActivity -> this
-        is ContextWrapper -> baseContext.findActivity()
-        else -> null
-    }
+
 @Composable
 fun WelcomeScreen(
     welcomeViewModel: WelcomeViewModel,
     onNavigateToHome: () -> Unit
 ) {
-    val context = LocalContext.current
-    context.findActivity()?.enableEdgeToEdge(
-        navigationBarStyle = SystemBarStyle.light(Color.Black.toArgb(), Color.Black.toArgb())
-    )
 
 
 
@@ -83,7 +75,7 @@ fun WelcomeScreen(
 
         LazyColumn(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(64.dp)
         ) {
             item {
                 Image(
@@ -168,7 +160,8 @@ fun WelcomeScreen(
         }
         Column(
             verticalArrangement = Arrangement.Bottom,
-            modifier = Modifier.fillMaxSize(1f)
+            modifier = Modifier
+                .fillMaxSize(1f)
         ) {
             Button(
                 onClick = {
