@@ -5,7 +5,9 @@ import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ProvidableCompositionLocal
@@ -28,6 +30,7 @@ import com.example.moodjournal.presentation.welcome.WelcomeScreen
 import com.example.moodjournal.presentation.welcome.WelcomeViewModel
 import com.example.moodjournal.presentation.home.HomeScreen
 import com.example.moodjournal.presentation.home.HomeViewModel
+import com.example.moodjournal.presentation.setting.SettingScreen
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -60,7 +63,7 @@ data class EditScreenNavKey(val id: Int): NavKey
 @Composable
 fun NavigationRoot(
     backStack: NavBackStack,
-    innerPadding: PaddingValues
+    paddingValues: PaddingValues
 ) {
     val localNavSharedTransitionScope: ProvidableCompositionLocal<SharedTransitionScope> =
         compositionLocalOf {
@@ -88,7 +91,7 @@ fun NavigationRoot(
     SharedTransitionLayout {
         CompositionLocalProvider(localNavSharedTransitionScope provides this) {
             NavDisplay(
-                modifier = Modifier.padding(innerPadding),
+                modifier = Modifier.padding(paddingValues),
                 backStack = backStack,
                 onBack = { keysToRemove -> repeat(keysToRemove) { backStack.removeLastOrNull() } },
                 entryDecorators = listOf(
@@ -116,6 +119,9 @@ fun NavigationRoot(
                     }
                     entry<AddScreenNavKey> {
                         AddScreen()
+                    }
+                    entry<SettingScreenNavKey> {
+                        SettingScreen(paddingValues)
                     }
 
                 }
