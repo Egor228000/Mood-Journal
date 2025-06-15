@@ -106,8 +106,8 @@ fun HomeScreen(
             ) {
                 items(20) { index ->
                     MoodCard(
-                        onClick = {homeViewModel.onEvent(HomeEvent.onDoubleClickNavigateEdit(index))},
-                        onDoubleClick = {homeViewModel.onEvent( HomeEvent.onClickNavigateWatch(index))},
+                        onClick = {homeViewModel.onEvent(HomeEvent.onClickNavigateWatch(index))},
+                        onLongClick = {homeViewModel.onEvent( HomeEvent.onDoubleClickNavigateEdit(index))},
                         title = "Заголовок $index",
                         description = "Описаниdsfsdfsdfsdfsdfsdfsdffе $index",
                         "\uD83D\uDE04"
@@ -123,7 +123,7 @@ fun HomeScreen(
 @Composable
 fun MoodCard(
     onClick: () -> Unit,
-    onDoubleClick: () -> Unit,
+    onLongClick: () -> Unit,
     title: String,
     description: String,
     moodEmoji: String
@@ -132,7 +132,7 @@ fun MoodCard(
         Modifier
             .combinedClickable(
                 onClick = onClick,
-                onDoubleClick = onDoubleClick
+                onLongClick = onLongClick
             )
             .fillMaxWidth(1f),
     ) {
