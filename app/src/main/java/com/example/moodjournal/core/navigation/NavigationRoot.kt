@@ -25,12 +25,15 @@ import androidx.navigation3.runtime.rememberSavedStateNavEntryDecorator
 import androidx.navigation3.ui.LocalNavAnimatedContentScope
 import androidx.navigation3.ui.NavDisplay
 import androidx.navigation3.ui.rememberSceneSetupNavEntryDecorator
+import com.example.moodjournal.core.navigation.AddScreenNavKey
 import com.example.moodjournal.presentation.add.AddScreen
+import com.example.moodjournal.presentation.edit.EditScreen
 import com.example.moodjournal.presentation.welcome.WelcomeScreen
 import com.example.moodjournal.presentation.welcome.WelcomeViewModel
 import com.example.moodjournal.presentation.home.HomeScreen
 import com.example.moodjournal.presentation.home.HomeViewModel
 import com.example.moodjournal.presentation.setting.SettingScreen
+import com.example.moodjournal.presentation.watch.WatchScreen
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -49,10 +52,10 @@ data object SettingScreenNavKey: NavKey
 data object StatisticsScreenNavKey: NavKey
 
 @Serializable
-data class WatchScreenNavKey(val id: Int): NavKey
+data class WatchScreenNavKey(val id: Int = 0): NavKey
 
 @Serializable
-data class EditScreenNavKey(val id: Int): NavKey
+data class EditScreenNavKey(val id: Int = 0): NavKey
 
 
 
@@ -109,19 +112,29 @@ fun NavigationRoot(
                             onNavigateToHome = {backStack.add(HomeScreenNavKey)}
                         )
                     }
-                    entry<HomeScreenNavKey> {
+                    entry<HomeScreenNavKey> { id ->
                         val homeViewModel: HomeViewModel = hiltViewModel()
                         HomeScreen(
                             homeViewModel,
-                            onNavigateToAdd = {backStack.add(AddScreenNavKey)}
+                            onNavigateToAdd =   { backStack.add(AddScreenNavKey) },
+                            onNavigateToWach = {   id ->
+                                backStack.add(
+                                    WatchScreenNavKey(id = id)   // ← вытаскиваем Int из navKey
+                                )
+                            },
+                            onNavigateToEdit =  {id ->
+                                backStack.add(
+                                    EditScreenNavKey(id = id)    // ← аналогично для EditScreenNavKey
+                                )
+                            }
                         )
+                    }
 
+                    entry<WatchScreenNavKey> { id ->
+                        WatchScreen(id.id)
                     }
-                    entry<AddScreenNavKey> {
-                        AddScreen()
-                    }
-                    entry<SettingScreenNavKey> {
-                        SettingScreen(paddingValues)
+                    entry<EditScreenNavKey> {id ->
+                        EditScreen(id.id)
                     }
 
                 }

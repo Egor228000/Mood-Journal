@@ -34,7 +34,15 @@ class HomeViewModel @Inject constructor(
                  is HomeEvent.onClick -> {
                      _effect.send(HomeEffect.onClickAddMood)
                  }
+                 is HomeEvent.onClickNavigateWatch -> {
+                     _effect.send(HomeEffect.navigateWatch(event.id))
+                 }
+                 is HomeEvent.onDoubleClickNavigateEdit -> {
+                     _effect.send(HomeEffect.navigateEdit(event.id))
+
+                 }
              }
+
          }
 
     }
